@@ -9,16 +9,21 @@ import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
 
+    const router = useRouter()
     const [user, setUserData] = React.useState({
         username: "",
         email:"",
         password:""
     })
 
-    console.log(user)
+    const signUp = async() => {
+        try {
+            const response = await axios.post("/api/users/signup", user); 
+            router.push("/login"); 
 
-    const signUp = () => {
-
+        } catch (error: any) {
+            console.log(error); 
+        }
     }
 
 
@@ -39,6 +44,12 @@ const SignUp = () => {
             <input type="password" name="" id="password" className=' rounded-md text-black' value={user.password}
              onChange={(event) => setUserData({...user, password : event.target.value})}
             />
+
+            <button className=' p-4 bg-black text-white border rounded-lg shadow-md shadow-white'
+                onClick={() => signUp()}
+            >SignUp</button>
+
+            <Link  href={"/login"} className='text-white'>Visit login page</Link>
         </div>
     )
 }
